@@ -1,3 +1,4 @@
+[![Build Status](https://travis-ci.org/BootyAss/lab04.svg?branch=master)](https://travis-ci.org/BootyAss/lab04)
 ## Laboratory work II
 
 Данная лабораторная работа посвещена изучению систем контроля версий на примере **Git**.
