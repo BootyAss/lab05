@@ -1,235 +1,253 @@
 [![Build Status](https://travis-ci.org/BootyAss/lab04.svg?branch=master)](https://travis-ci.org/BootyAss/lab04)
-## Laboratory work II
+## Laboratory work III
 
-Данная лабораторная работа посвещена изучению систем контроля версий на примере **Git**.
+Данная лабораторная работа посвещена изучению систем автоматизации сборки проекта на примере **CMake**
 
-```bash
-$ open https://git-scm.com
+```ShellSession
+# Открываем ссылку по URL
+$ open https://cmake.org/
 ```
 
 ## Tasks
 
-- [x] 1. Создать публичный репозиторий с названием **lab02** и с лиценцией **MIT**
-- [x] 2. Сгенирировать токен для доступа к сервису **GitHub** с правами **repo**
-- [x] 3. Ознакомиться со ссылками учебного материала
-- [x] 4. Выполнить инструкцию учебного материала
-- [x] 5. Составить отчет и отправить ссылку личным сообщением в **Slack**
+- [X] 1. Создать публичный репозиторий с названием **lab03** на сервисе **GitHub**
+- [X] 2. Ознакомиться со ссылками учебного материала
+- [X] 3. Выполнить инструкцию учебного материала
+- [X] 4. Составить отчет и отправить ссылку личным сообщением в **Slack**
 
 ## Tutorial
 
-Установка переменных
-
 ```ShellSession
-$ export GITHUB_USERNAME=Toliak                                     # Установка переменной GITHUB_USERNAME
-$ export GITHUB_EMAIL=ibolosik@gmail.com                            # Установка переменной GITHUB_EMAIL
-$ export GITHUB_TOKEN=xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx      # Установка переменной GITHUB_TOKEN
-$ alias edit=nano                                                   # Установка синонима команды edit
+$ export GITHUB_USERNAME=<имя_пользователя>
 ```
 
-Подготовка рабочего места
-
+# Активация скрипта
 ```ShellSession
-$ cd ${GITHUB_USERNAME}/workspace               # Переход в папку workspace
-$ source scripts/activate                       # Выполнение скрипта подготовки
+$ cd ${GITHUB_USERNAME}/workspace
+$ pushd .
+$ source scripts/activate
 ```
 
-Конфигурация hub
-
+# Получение файлов
 ```ShellSession
-$ mkdir ~/.config                               # Создание папки с конфигами
-mkdir: cannot create directory ‘/home/toliak/.config’: File exists
-$ cat > ~/.config/hub <<EOF                     # Создание файла конфига hub и запись в него
-github.com:
-- user: ${GITHUB_USERNAME}
-  oauth_token: ${GITHUB_TOKEN}
-  protocol: https
-EOF
-$ git config --global hub.protocol https        # Установка переменной конфига git
+# Копируем файлы из предыдущей лаб. р.
+$ git clone https://github.com/${GITHUB_USERNAME}/lab02.git projects/lab03
+$ cd projects/lab03
+# Удаляем ссылку на л.р. 2
+$ git remote remove origin
+# Создаем новую на л.р. 3
+$ git remote add origin https://github.com/${GITHUB_USERNAME}/lab03.git
 ```
 
-Работа с git
-
+# Запуск кодов полученных файлов
 ```ShellSession
-$ mkdir projects/lab02 && cd projects/lab02             # Создание папки и переход в нее
-$ git init                                              # Создание пустого репозиторий
-Initialized empty Git repository in /home/toliak/Documents/Toliak/workspace/projects/lab02/.git/
-$ git config --global user.name ${GITHUB_USERNAME}      # Установка переменной конфига user.name для git
-$ git config --global user.email ${GITHUB_EMAIL}        # Установка переменной конфига user.email для git
-# check your git global settings
-$ git config -e --global                                # Вывод всего конфига из git
-[user]
-        email = ibolosik@gmail.com
-        name = Toliak
-[hub]
-        protocol = https
-$ git remote add origin https://github.com/${GITHUB_USERNAME}/lab02.git     # Добавление ссылки на репозиторий на гитхабе
-$ git pull origin master                                                    # Перенос изменения с гитхаба
-remote: Enumerating objects: 3, done.
-remote: Counting objects: 100% (3/3), done.
-remote: Compressing objects: 100% (2/2), done.
-remote: Total 3 (delta 0), reused 0 (delta 0), pack-reused 0
-Unpacking objects: 100% (3/3), done.
-From https://github.com/Toliak/lab02
- * branch            master     -> FETCH_HEAD
- * [new branch]      master     -> origin/master
-$ touch README.md                                                           # Создать README.md
-$ git status                                                                # Посмотреть статус репозитория
-On branch master
-Untracked files:
-  (use "git add <file>..." to include in what will be committed)
-
-        README.md
-
-nothing added to commit but untracked files present (use "git add" to track)
-$ git add README.md                                                         # Добавить README.md в список фиксированных
-$ git commit -m"added README.md"                                            # Закоммитить фиксированные изменения
-[master 44830ab] added README.md
- 1 file changed, 0 insertions(+), 0 deletions(-)
- create mode 100644 README.md
-$ git push origin master                                                    # Отправить изменения на гитхаб
-Username for 'https://github.com': Toliak
-Password for 'https://Toliak@github.com': 
-Enumerating objects: 4, done.
-Counting objects: 100% (4/4), done.
-Delta compression using up to 4 threads
-Compressing objects: 100% (2/2), done.
-Writing objects: 100% (3/3), 277 bytes | 277.00 KiB/s, done.
-Total 3 (delta 0), reused 0 (delta 0)
-To https://github.com/Toliak/lab02.git
-   fb79117..44830ab  master -> master
+$ g++ -std=c++11 -I./include -c sources/print.cpp
+$ ls print.o
+print.o
+$ nm print.o | grep print
+0000000000000095 t _GLOBAL__sub_I__Z5printRKNSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEEERSo
+0000000000000000 T _Z5printRKNSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEEERSo
+0000000000000026 T _Z5printRKNSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEEERSt14basic_ofstreamIcS2_E
+$ ar rvs print.a print.o
+ar: создаётся print.a
+a - print.o
+$ file print.a
+print.a: current ar archive
+$ g++ -std=c++11 -I./include -c examples/example1.cpp
+$ ls example1.o
+example1.o
+$ g++ example1.o print.a -o example1
+$ ./example1 && echo
+hello
 ```
 
-Добавить на сервисе **GitHub** в репозитории **lab02** файл **.gitignore**
-со следующем содержимом:
-
 ```ShellSession
-*build*/
-*install*/
-*.swp
-.idea/
+$ g++ -std=c++11 -I./include -c examples/example2.cpp
+$ nm example2.o
+                 U __cxa_atexit
+                 U __dso_handle
+0000000000000000 V DW.ref.__gxx_personality_v0
+                 U _GLOBAL_OFFSET_TABLE_
+0000000000000163 t _GLOBAL__sub_I_main
+                 U __gxx_personality_v0
+0000000000000000 T main
+                 U __stack_chk_fail
+                 U _Unwind_Resume
+000000000000011a t _Z41__static_initialization_and_destruction_0ii
+                 U _Z5printRKNSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEEERSt14basic_ofstreamIcS2_E
+                 U _ZNSaIcEC1Ev
+                 U _ZNSaIcED1Ev
+                 U _ZNSt14basic_ofstreamIcSt11char_traitsIcEEC1EPKcSt13_Ios_Openmode
+                 U _ZNSt14basic_ofstreamIcSt11char_traitsIcEED1Ev
+                 U _ZNSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEEC1EPKcRKS3_
+                 U _ZNSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEED1Ev
+                 U _ZNSt8ios_base4InitC1Ev
+                 U _ZNSt8ios_base4InitD1Ev
+0000000000000000 r _ZStL19piecewise_construct
+0000000000000000 b _ZStL8__ioinit
+$ g++ example2.o print.a -o example2
+$ ./example2
+$ cat log.txt && echo
+hello
 ```
 
-Перенос изменений с гитхаба
-
+# Удаляем ненужные файлы
 ```ShellSession
-$ git pull origin master        # Перенос изменений с гитхаба
-remote: Enumerating objects: 4, done.
-remote: Counting objects: 100% (4/4), done.
-remote: Compressing objects: 100% (2/2), done.
-remote: Total 3 (delta 0), reused 0 (delta 0), pack-reused 0
-Unpacking objects: 100% (3/3), done.
-From https://github.com/Toliak/lab02
- * branch            master     -> FETCH_HEAD
-   44830ab..c52a23e  master     -> origin/master
-Updating 44830ab..c52a23e
-Fast-forward
- .gitignore | 4 ++++
- 1 file changed, 4 insertions(+)
- create mode 100644 .gitignore
-$ git log                       # Просмотр коммитов
-commit c52a23ea39cd2bfb22ae8e5d6b108eaafea7431b (HEAD -> master, origin/master)
-Author: Toliak <ibolosik@gmail.com>
-Date:   Mon Mar 18 18:43:35 2019 +0300
-
-    Create .gitignore
-
-commit 44830ab32d44d1a6c1b97bcfed20d2b79c04e4fd
-Author: Toliak <ibolosik@gmail.com>
-Date:   Mon Mar 18 18:36:55 2019 +0300
-
-    added README.md
-
-commit fb79117022cbe4d85efa783dd41cdbaeeb5e9da5
-Author: Toliak <ibolosik@gmail.com>
-Date:   Mon Mar 18 18:19:54 2019 +0300
-
-    Initial commit
+$ rm -rf example1.o example2.o print.o
+$ rm -rf print.a
+$ rm -rf example1 example2
+$ rm -rf log.txt
 ```
 
-Создание папок и файла с кодом
-
 ```ShellSession
-$ mkdir sources                     # Создание папки sources
-$ mkdir include                     # Создание папки include
-$ mkdir examples                    # Создание папки examples
-$ cat > sources/print.cpp <<EOF     # Запись кода в файл
-#include <print.hpp>
-
-void print(const std::string& text, std::ostream& out)
-{
-  out << text;
-}
-
-void print(const std::string& text, std::ofstream& out)
-{
-  out << text;
-}
+$ cat > CMakeLists.txt <<EOF
+cmake_minimum_required(VERSION 3.4)
+project(print)
 EOF
 ```
 
-Создание файла с кодом
-
 ```ShellSession
-$ cat > include/print.hpp <<EOF         # Запись кода в файл
-#include <fstream>
-#include <iostream>
-#include <string>
-
-void print(const std::string& text, std::ofstream& out);
-void print(const std::string& text, std::ostream& out = std::cout);
+$ cat >> CMakeLists.txt <<EOF
+set(CMAKE_CXX_STANDARD 11)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
 EOF
 ```
 
-Создание файла с кодом
-
 ```ShellSession
-$ cat > examples/example1.cpp <<EOF         # Запись кода в файл
-#include <print.hpp>
-
-int main(int argc, char** argv)
-{
-  print("hello");
-}
+$ cat >> CMakeLists.txt <<EOF
+add_library(print STATIC \${CMAKE_CURRENT_SOURCE_DIR}/sources/print.cpp)
 EOF
 ```
 
-Создание файла с кодом
-
 ```ShellSession
-$ cat > examples/example2.cpp <<EOF         # Запись кода в файл
-#include <print.hpp>
-
-#include <fstream>
-
-int main(int argc, char** argv)
-{
-  std::ofstream file("log.txt");
-  print(std::string("hello"), file);
-}
+$ cat >> CMakeLists.txt <<EOF
+include_directories(\${CMAKE_CURRENT_SOURCE_DIR}/include)
 EOF
 ```
 
-Редактирование README.md
-
+# Настройка Cmake
 ```ShellSession
-$ edit README.md                # Редактировать README.md
+$ cmake -H. -B_build
+-- Configuring done
+-- Generating done
+-- Build files have been written to: /home/leo/BootyAss/workspace/projects/lab03/_build
+$ cmake --build _build
+[100%] Built target print
 ```
 
-Просмотр состояния репозитория и отправка изменений на гитхаб
+```ShellSession
+$ cat >> CMakeLists.txt <<EOF
+
+add_executable(example1 \${CMAKE_CURRENT_SOURCE_DIR}/examples/example1.cpp)
+add_executable(example2 \${CMAKE_CURRENT_SOURCE_DIR}/examples/example2.cpp)
+EOF
+```
 
 ```ShellSession
-$ git status                            # Просмотр статуса репозитория
-$ git add .                             # Фиксация всех изменений
-$ git commit -m"added sources"          # Коммит зафиксированных изменений
-$ git push origin master                # Отправка изменений на гитхаб
+$ cat >> CMakeLists.txt <<EOF
+
+target_link_libraries(example1 print)
+target_link_libraries(example2 print)
+EOF
+```
+
+```ShellSession
+$ cmake --build _build
+[100%] Built target example1
+$ cmake --build _build --target print
+[100%] Built target print
+$ cmake --build _build --target example1
+[ 50%] Built target print
+[100%] Built target example1
+$ cmake --build _build --target example2
+[ 50%] Built target print
+[100%] Built target example2
+```
+
+```ShellSession
+$ ls -la _build/libprint.a
+-rw-r--r-- 1 leo leo 3118 апр 15 17:24 _build/libprint.a
+$ _build/example1 && echo
+hello
+$ _build/example2
+$ cat log.txt && echo
+hello
+$ rm -rf log.txt
+```
+
+```ShellSession
+$ git clone https://github.com/tp-labs/lab03 tmp
+$ mv -f tmp/CMakeLists.txt .
+$ rm -rf tmp
+```
+
+```ShellSession
+$ cat CMakeLists.txt
+cmake_minimum_required(VERSION 3.0)
+
+set(CMAKE_CXX_STANDARD 11)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
+
+option(BUILD_EXAMPLES "Build examples" OFF)
+
+project(print)
+
+add_library(print STATIC ${CMAKE_CURRENT_SOURCE_DIR}/sources/print.cpp)
+
+target_include_directories(print PUBLIC
+  $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
+  $<INSTALL_INTERFACE:include>
+)
+
+if(BUILD_EXAMPLES)
+  file(GLOB EXAMPLE_SOURCES "${CMAKE_CURRENT_SOURCE_DIR}/examples/*.cpp")
+  foreach(EXAMPLE_SOURCE ${EXAMPLE_SOURCES})
+    get_filename_component(EXAMPLE_NAME ${EXAMPLE_SOURCE} NAME_WE)
+    add_executable(${EXAMPLE_NAME} ${EXAMPLE_SOURCE})
+    target_link_libraries(${EXAMPLE_NAME} print)
+    install(TARGETS ${EXAMPLE_NAME}
+      RUNTIME DESTINATION bin
+    )
+  endforeach(EXAMPLE_SOURCE ${EXAMPLE_SOURCES})
+endif()
+
+install(TARGETS print
+    EXPORT print-config
+    ARCHIVE DESTINATION lib
+    LIBRARY DESTINATION lib
+)
+
+install(DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/include/ DESTINATION include)
+install(EXPORT print-config DESTINATION cmake)
+
+$ cmake -H. -B_build -DCMAKE_INSTALL_PREFIX=_install
+$ cmake --build _build --target install
+$ tree _install
+_install
+├── cmake
+│   ├── print-config.cmake
+│   └── print-config-noconfig.cmake
+├── include
+│   └── print.hpp
+└── lib
+    └── libprint.a
+
+3 directories, 4 files
+
+```
+
+```ShellSession
+$ git add CMakeLists.txt
+$ git commit -m"added CMakeLists.txt"
+$ git push origin master
 ```
 
 ## Report
 
 ```ShellSession
-$ cd ~/workspace/labs/
-$ export LAB_NUMBER=02
-$ git clone https://github.com/tp-labs/lab${LAB_NUMBER}.git tasks/lab${LAB_NUMBER}
+$ popd
+$ export LAB_NUMBER=03
+$ git clone https://github.com/tp-labs/lab${LAB_NUMBER} tasks/lab${LAB_NUMBER}
 $ mkdir reports/lab${LAB_NUMBER}
 $ cp tasks/lab${LAB_NUMBER}/README.md reports/lab${LAB_NUMBER}/REPORT.md
 $ cd reports/lab${LAB_NUMBER}
@@ -239,54 +257,36 @@ $ gistup -m "lab${LAB_NUMBER}"
 
 ## Homework
 
-### Part I
+Представьте, что вы стажер в компании "Formatter Inc.".
+### Задание 1
+Вам поручили перейти на систему автоматизированной сборки **CMake**.
+Исходные файлы находятся в папке [formatter_lib](formatter_lib).
+В этой директории находятся файлы для статической библиотеки *formatter*.
+Создайте `CMakeList.txt` в директории [formatter_lib](formatter_lib),
+с помощью которого можно будет собирать статическую библиотеку *formatter*.
 
-1. Создайте пустой репозиторий на сервисе github.com (или gitlab.com, или bitbucket.com).
-2. Выполните инструкцию по созданию первого коммита на странице репозитория, созданного на предыдещем шаге.
-3. Создайте файл `hello_world.cpp` в локальной копии репозитория (который должен был появиться на шаге 2). Реализуйте программу **Hello world** на языке C++ используя плохой стиль кода. Например, после заголовочных файлов вставьте строку `using namespace std;`.
-4. Добавьте этот файл в локальную копию репозитория.
-5. Закоммитьте изменения с *осмысленным* сообщением.
-6. Изменитьте исходный код так, чтобы программа через стандартный поток ввода запрашивалось имя пользователя. А в стандартный поток вывода печаталось сообщение `Hello world from @name`, где `@name` имя пользователя.
-7. Закоммитьте новую версию программы. Почему не надо добавлять файл повторно `git add`?
-8. Запуште изменения в удалёный репозиторий.
-9. Проверьте, что история коммитов доступна в удалёный репозитории.
+### Задание 2
+У компании "Formatter Inc." есть перспективная библиотека,
+которая является расширением предыдущей библиотеки. Т.к. вы уже овладели
+навыком созданием `CMakeList.txt` для статической библиотеки *formatter*, ваш 
+руководитель поручает заняться созданием `CMakeList.txt` для библиотеки 
+*formatter_ex*, которая в свою очередь использует библиотеку *formatter*.
 
-### Part II
+### Задание 3
+Конечно же ваша компания предоставляет примеры использования своих библиотек.
+Чтобы продемонстрировать как работать с библиотекой *formatter_ex*,
+вам необходимо создать два `CMakeList.txt` для двух простых приложений:
+* *hello_world*, которое использует библиотеку *formatter_ex*;
+* *solver*, приложение которое испольует статические библиотеки *formatter_ex* и *solver_lib*.
 
-**Note:** *Работать продолжайте с теми же репоззиториями, что и в первой части задания.*
-1. В локальной копии репозитория создайте локальную ветку `patch1`.
-2. Внесите изменения в ветке `patch1` по исправлению кода и избавления от `using namespace std;`.
-3. **commit**, **push** локальную ветку в удалённый репозиторий.
-4. Проверьте, что ветка `patch1` доступна в удалёный репозитории.
-5. Создайте pull-request `patch1 -> master`.
-6. В локальной копии в ветке `patch1` добавьте в исходный код комментарии.
-7. **commit**, **push**.
-8. Проверьте, что новые изменения есть в созданном на **шаге 5** pull-request
-9. В удалённый репозитории выполните  слияние PR `patch1 -> master` и удалите ветку `patch1` в удаленном репозитории.
-10. Локально выполните **pull**.
-11. С помощью команды **git log** просмотрите историю в локальной версии ветки `master`.
-12. Удалите локальную ветку `patch1`.
-
-### Part III
-
-**Note:** *Работать продолжайте с теми же репоззиториями, что и в первой части задания.*
-1. Создайте новую локальную ветку `patch2`.
-2. Измените *code style* с помощью утилиты [**clang-format**](http://clang.llvm.org/docs/ClangFormat.html). Например, используя опцию `-style=Mozilla`.
-3. **commit**, **push**, создайте pull-request `patch2 -> master`.
-4. В ветке **master** в удаленном репозитории измените комментарии, например, расставьте знаки препинания, переведите комментарии на другой язык.
-5. Убедитесь, что в pull-request появились *конфликтны*.
-6. Для этого локально выполните **pull** + **rebase** (точную последовательность команд, следует узнать самостоятельно). **Исправьте конфликты**.
-7. Сделайте *force push* в ветку `patch2`
-8. Убедитель, что в pull-request пропали конфликтны. 
-9. Вмержите pull-request `patch2 -> master`.
+**Удачной стажировки!**
 
 ## Links
-
-- [hub](https://hub.github.com/)
-- [GitHub](https://github.com)
-- [Bitbucket](https://bitbucket.org)
-- [Gitlab](https://about.gitlab.com)
-- [LearnGitBranching](http://learngitbranching.js.org/)
+- [Основы сборки проектов на С/C++ при помощи CMake](https://eax.me/cmake/)
+- [CMake Tutorial](http://neerc.ifmo.ru/wiki/index.php?title=CMake_Tutorial)
+- [C++ Tutorial - make & CMake](https://www.bogotobogo.com/cplusplus/make.php)
+- [Autotools](http://www.gnu.org/software/automake/manual/html_node/Autotools-Introduction.html)
+- [CMake](https://cgold.readthedocs.io/en/latest/index.html)
 
 ```
 Copyright (c) 2015-2019 The ISC Authors
