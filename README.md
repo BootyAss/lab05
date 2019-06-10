@@ -1,4 +1,4 @@
-[![Build Status](https://travis-ci.org/BootyAss/lab04.svg?branch=master)](https://travis-ci.org/BootyAss/lab04)
+[![Build Status](https://travis-ci.org/BootyAss/lab05.svg?branch=master)](https://travis-ci.org/BootyAss/lab05)
 ## Laboratory work III
 
 Данная лабораторная работа посвещена изучению систем автоматизации сборки проекта на примере **CMake**
